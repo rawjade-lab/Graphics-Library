@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { BookCategory } from '@/types/portfolio';
 import MotionReelModal from './MotionReelModal';
+import CharacterViewerModal from './CharacterViewerModal';
 
 interface PortfolioBookModalProps {
   book: BookCategory;
@@ -177,6 +178,9 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
 
   if (book.id === 'book-motion') {
     return <MotionReelModal book={book} onClose={onClose} />;
+  }
+  if (book.id === 'book-character') {
+    return <CharacterViewerModal book={book} onClose={onClose} />;
   }
 
   const openChapterDetail = (idx: number, subTopic?: string) => {
