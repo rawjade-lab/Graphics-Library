@@ -202,7 +202,7 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
       onClick={onClose}
     >
       <div
-        className="relative flex h-[90vh] w-full max-w-6xl flex-col overflow-hidden border border-white/15 bg-[#d8d8d6] text-[#111111] shadow-2xl"
+        className="relative flex h-[90vh] w-full max-w-6xl flex-col overflow-hidden border border-white/15 bg-[#d8d8d6] text-[#111111] shadow-2xl max-md:flex-col-reverse"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 상단 내비게이션 바 */}
@@ -244,7 +244,7 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
               {/* 은은한 뒷면 비침 / 고스트 워터마크 레이어 */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none select-none absolute inset-0 grid grid-cols-1 md:grid-cols-2"
+                className="pointer-events-none select-none absolute inset-0 grid grid-cols-1 md:grid-cols-2 max-md:flex-col-reverse"
               >
                 <div className="p-8 sm:p-12 text-[11px] leading-relaxed tracking-wide text-black/[0.06] blur-[0.4px]">
                   <p className="mb-4">
@@ -272,9 +272,9 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
               />
 
               {/* 좌/우 스프레드 콘텐츠 */}
-              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 min-h-full">
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 min-h-full max-md:flex-col-reverse">
                 {/* 좌측: Index 대형 타이틀 */}
-                <div className="relative flex flex-col justify-between p-6 sm:p-10 md:p-12 border-b md:border-b-0 border-black/15">
+                <div className="relative flex flex-col justify-between p-6 sm:p-10 md:p-12 border-b md:border-b-0 border-black/15 max-md:flex-col-reverse">
                   <div>
                     <h2 className="text-[64px] sm:text-[86px] md:text-[96px] font-black leading-[0.92] tracking-[-0.04em] text-[#111111]">
                       Index
@@ -293,7 +293,7 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
                 </div>
 
                 {/* 우측: 번호 매겨진 목차 리스트 */}
-                <div className="relative flex flex-col justify-between p-6 sm:p-10 md:p-12">
+                <div className="relative flex flex-col justify-between p-6 sm:p-10 md:p-12 max-md:flex-col-reverse">
                   <div className="space-y-4 sm:space-y-5">
                     {chapters.map((chapter, idx) => (
                       <div key={chapter.num} className="group">
@@ -385,11 +385,11 @@ export default function PortfolioBookModal({ book, onClose }: PortfolioBookModal
               </div>
 
               {/* 비주얼 플레이트 영역 */}
-              <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3 max-md:flex-col-reverse">
                 {selectedChapter.deliverables.map((item, dIdx) => (
                   <div
                     key={item}
-                    className="flex min-h-[170px] flex-col justify-between border border-black/15 bg-[#d8d8d6] p-4"
+                    className="flex min-h-[170px] flex-col justify-between border border-black/15 bg-[#d8d8d6] p-4 max-md:flex-col-reverse"
                   >
                     <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-black/55">
                       <span>PLATE 0{dIdx + 1}</span>

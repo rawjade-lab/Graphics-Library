@@ -99,7 +99,7 @@ function GroupEntryBlock({
         ) : (
           <div
             style={{ background: posterGradient }}
-            className="flex h-full w-full flex-col items-center justify-center rounded-none p-6 text-center"
+            className="flex h-full w-full flex-col items-center justify-center rounded-none p-6 text-center max-md:flex-col-reverse"
           >
             <p className="text-xs text-white/75">
               영상을 불러오지 못했습니다. 파일 경로({entry.videoUrl}) 또는 브라우저 코덱 지원 여부를 확인해 주세요.
@@ -118,7 +118,7 @@ function GroupEntryBlock({
           />
         </div>
       ) : (
-        <div className="flex min-h-[140px] w-full flex-col items-center justify-center rounded-none bg-[#12151d] p-6 text-center text-xs text-neutral-400">
+        <div className="flex min-h-[140px] w-full flex-col items-center justify-center rounded-none bg-[#12151d] p-6 text-center text-xs text-neutral-400 max-md:flex-col-reverse">
           <p className="font-semibold text-neutral-200">
             포트폴리오 상세 이미지 영역
           </p>
@@ -214,7 +214,7 @@ export default function MotionReelModal({ onClose }: MotionReelModalProps) {
       `}</style>
 
       <div
-        className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-none border border-white/15 bg-[#0d0f14] text-white shadow-2xl"
+        className="relative flex max-h-[92vh] w-full max-w-5xl flex-col overflow-hidden rounded-none border border-white/15 bg-[#0d0f14] text-white shadow-2xl max-md:flex-col-reverse"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -227,7 +227,7 @@ export default function MotionReelModal({ onClose }: MotionReelModalProps) {
         </button>
 
         {groups.length > 1 && (
-          <div className="absolute bottom-4 right-3 sm:bottom-5 sm:right-4 z-30 flex flex-col gap-2">
+          <div className="absolute bottom-4 right-3 sm:bottom-5 sm:right-4 z-30 flex flex-col gap-2 max-md:flex-col-reverse">
             <button
               type="button"
               onClick={() => selectGroup(activeIndex - 1)}

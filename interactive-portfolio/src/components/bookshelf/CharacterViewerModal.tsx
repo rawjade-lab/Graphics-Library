@@ -271,7 +271,7 @@ export default function CharacterViewerModal({ book, onClose }: CharacterViewerM
       onClick={onClose}
     >
       <div
-        className="relative flex h-[86vh] max-h-[820px] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-[#0b0c0f]/95 text-neutral-100 shadow-2xl md:flex-row"
+        className="relative flex h-[86vh] max-h-[820px] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-[#0b0c0f]/95 text-neutral-100 shadow-2xl md:flex-row max-md:flex-col-reverse"
         style={{
           backgroundImage:
             'linear-gradient(to right, rgba(255,255,255,0.055) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.055) 1px, transparent 1px)',
@@ -289,7 +289,7 @@ export default function CharacterViewerModal({ book, onClose }: CharacterViewerM
         </button>
 
         {/* 좌측 패널 */}
-        <div className="flex w-full flex-col justify-between overflow-y-auto bg-transparent p-6 md:w-[46%] md:p-8">
+        <div className="flex w-full flex-col justify-between overflow-y-auto bg-transparent p-6 md:w-[46%] md:p-8 max-md:flex-col-reverse">
           <div className="space-y-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-block bg-neutral-100 px-2.5 py-1 text-xs font-bold tracking-wider text-neutral-950">
@@ -363,13 +363,11 @@ export default function CharacterViewerModal({ book, onClose }: CharacterViewerM
             )}
           </div>
 
-          <div className="mt-6 pt-3 text-[11px] text-neutral-500">
-            INTERACTIVE 3D CHARACTER ARCHIVE · 스텔라 장
-          </div>
+          
         </div>
 
         {/* 우측 패널: 3D 뷰어 */}
-        <div className="relative flex h-[44vh] w-full flex-col bg-transparent md:h-auto md:w-[54%]">
+        <div className="relative flex h-[44vh] w-full flex-col bg-transparent md:h-auto md:w-[54%] max-md:flex-col-reverse">
           <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4 pr-16">
             <div className="pointer-events-auto flex items-center gap-2">
               <button
