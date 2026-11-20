@@ -1,5 +1,20 @@
 'use client';
 
+
+const __swipeTouchStart = { current: { x: 0, y: 0 } };
+function __handleTouchStart(e: any) {
+  if (!e?.touches || e.touches.length !== 1) return;
+  __swipeTouchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+}
+function __handleTouchEnd(e: any, onLeft?: (() => void) | null, onRight?: (() => void) | null) {
+  if (!e?.changedTouches || e.changedTouches.length !== 1) return;
+  const dx = e.changedTouches[0].clientX - __swipeTouchStart.current.x;
+  const dy = e.changedTouches[0].clientY - __swipeTouchStart.current.y;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+    if (dx < 0 && typeof onLeft === "function") onLeft();
+    if (dx > 0 && typeof onRight === "function") onRight();
+  }
+}
 import React, { useEffect, useRef, useState } from 'react';
 import { BookCategory } from '@/types/portfolio';
 
@@ -82,7 +97,7 @@ function GroupEntryBlock({
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div data-swipe-bound="true" onTouchStart={__handleTouchStart} onTouchEnd={(e) => __handleTouchEnd(e, typeof handleNext === "function" ? handleNext : undefined, typeof handlePrev === "function" ? handlePrev : undefined)} className="w-full bg-black">
+    <div data-swipe-bound="true" onTouchStart={__handleTouchStart} onTouchEnd={(e) => __handleTouchEnd(e, typeof null === "function" ? null : undefined, typeof null === "function" ? null : undefined)} className="w-full bg-black">
       <div className="relative aspect-video w-full overflow-hidden rounded-none bg-black">
         {!videoError ? (
           <video
