@@ -2,7 +2,7 @@
 
 import React, { Component, ErrorInfo, ReactNode, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Grid, OrbitControls, useGLTF } from '@react-three/drei';
+import { Grid, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import type { BookCategory } from '@/types/portfolio';
@@ -193,6 +193,7 @@ function LoadedCharacterModel({ url, autoRotate }: { url: string; autoRotate: bo
 }
 
 export default function CharacterViewerModal({ book, onClose }: CharacterViewerModalProps) {
+  const { active: __isModelLoading, progress: __loadProgress } = useProgress();
   const [slots, setSlots] = useState<CharacterSlot[]>([DEFAULT_SLOT]);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [autoRotate, setAutoRotate] = useState(true);
@@ -385,7 +386,15 @@ export default function CharacterViewerModal({ book, onClose }: CharacterViewerM
           </div>
 
           <div className="h-full w-full cursor-grab active:cursor-grabbing">
-            <Canvas
+            {__isModelLoading && (
+        <div data-model-loader="true" className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none">
+          <div className="w-8 h-8 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
+          <span className="text-xs tracking-widest uppercase text-neutral-400">
+            LOADING 3D MODEL... {Math.round(__loadProgress)}%
+          </span>
+        </div>
+      )}
+      <Canvas
               dpr={[1, 2]}
               camera={{ position: [0, 0.25, 4.4], fov: 38 }}
               gl={{ antialias: true }}
@@ -438,8 +447,8 @@ export default function CharacterViewerModal({ book, onClose }: CharacterViewerM
           </div>
 
           <div className="pointer-events-none flex items-center justify-between bg-transparent px-4 py-2 text-[11px] text-neutral-400">
-            <span>좌클릭 드래그: 회전 · 휠: 줌인/줌아웃 · 우클릭 드래그: 이동</span>
-            <span className="font-mono text-neutral-500">3D VIEWER</span>
+            <span></span>
+            
           </div>
         </div>
       </div>

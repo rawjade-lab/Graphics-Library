@@ -2,13 +2,14 @@
 
 import React, { useEffect, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, Lightformer } from '@react-three/drei';
+import { Environment, Lightformer, useProgress } from "@react-three/drei";
 import { BOOKS_DATA } from '@/data/portfolioData';
 import { usePortfolioStore } from '@/store/usePortfolioStore';
 import BookMesh3D from './BookMesh3D';
 import PortfolioBookModal from './PortfolioBookModal';
 
 export default function BookshelfScene() {
+  const { active: __isModelLoading, progress: __loadProgress } = useProgress();
   const selectedBookId = usePortfolioStore((state) => state.selectedBookId);
   const closeBook = usePortfolioStore((state) => state.closeBook);
   const setHoveredBookIndex = usePortfolioStore((state) => state.setHoveredBookIndex);
@@ -45,7 +46,15 @@ export default function BookshelfScene() {
       </header>
 
       <div className="w-full h-full">
-        <Canvas
+        {__isModelLoading && (
+        <div data-model-loader="true" className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 pointer-events-none">
+          <div className="w-8 h-8 border-2 border-orange-500/30 border-t-orange-500 rounded-full animate-spin" />
+          <span className="text-xs tracking-widest uppercase text-neutral-400">
+            LOADING 3D MODEL... {Math.round(__loadProgress)}%
+          </span>
+        </div>
+      )}
+      <Canvas
           shadows
           camera={{ position: [0, 0, isMobile ? 12.2 : 9.6], fov: 45 }}
           onPointerMissed={() => setHoveredBookIndex(null)}
