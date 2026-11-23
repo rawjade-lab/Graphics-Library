@@ -94,23 +94,44 @@ function GroupEntryBlock({
   posterGradient: string;
 }) {
   const [videoError, setVideoError] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  React.useEffect(() => {
+    setIsVideoLoading(true);
+    setIsImageLoading(true);
+  }, [entry?.videoUrl, entry?.detailImageUrl]);
 
   return (
     <div data-swipe-bound="true" onTouchStart={__handleTouchStart} onTouchEnd={(e) => __handleTouchEnd(e, typeof null === "function" ? null : undefined, typeof null === "function" ? null : undefined)} className="w-full bg-black">
       <div className="relative aspect-video w-full overflow-hidden rounded-none bg-black">
         {!videoError ? (
-          <video
-            src={entry.videoUrl}
-            controls
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            onError={() => setVideoError(true)}
-            className="block h-full w-full rounded-none object-contain bg-black"
-          />
+          <div className="relative h-full w-full bg-black">
+                {isVideoLoading && !videoError && (
+                  <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black text-xs font-mono tracking-[0.22em] text-white/75 uppercase">
+                    LOADING...
+                  </div>
+                )}
+                <video
+                  src={entry.videoUrl}
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  onLoadStart={() => setIsVideoLoading(true)}
+                  onWaiting={() => setIsVideoLoading(true)}
+                  onLoadedData={() => setIsVideoLoading(false)}
+                  onCanPlay={() => setIsVideoLoading(false)}
+                  onPlaying={() => setIsVideoLoading(false)}
+                  onError={() => {
+                    setIsVideoLoading(false);
+                    setVideoError(true);
+                  }}
+                  className="block h-full w-full rounded-none object-contain bg-black"
+                />
+              </div>
         ) : (
           <div
             style={{ background: posterGradient }}
@@ -125,12 +146,25 @@ function GroupEntryBlock({
 
       {entry.detailImageUrl && !imageError ? (
         <div className="w-full overflow-hidden rounded-none bg-[#12151d]">
-          <img
-            src={entry.detailImageUrl}
-            alt={entry.filename}
-            onError={() => setImageError(true)}
-            className="block h-auto w-full rounded-none object-contain"
-          />
+          <div className="relative min-h-[180px] w-full bg-black">
+                  {isImageLoading && !imageError && (
+                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black text-xs font-mono tracking-[0.22em] text-white/75 uppercase">
+                      LOADING...
+                    </div>
+                  )}
+                  <img
+                    src={entry.detailImageUrl}
+                    alt={entry.filename}
+                    loading="eager"
+                    decoding="async"
+                    onLoad={() => setIsImageLoading(false)}
+                    onError={() => {
+                      setIsImageLoading(false);
+                      setImageError(true);
+                    }}
+                    className="block h-auto w-full rounded-none object-contain"
+                  />
+                </div>
         </div>
       ) : (
         <div className="flex min-h-[140px] w-full flex-col items-center justify-center rounded-none bg-[#12151d] p-6 text-center text-xs text-neutral-400 max-md:flex-col-reverse">

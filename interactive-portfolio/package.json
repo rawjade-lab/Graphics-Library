@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node scripts/sync-brands.mjs && next dev",
+    "build": "node scripts/sync-brands.mjs && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-brands": "node -e 'const fs=require(\"fs\"),path=require(\"path\");const dir=path.join(\"public\",\"brands\");const files=fs.existsSync(dir)?fs.readdirSync(dir).filter(f=>/\\.(png|jpe?g|webp|gif|svg)$/i.test(f)&&!f.startsWith(\".\")).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true,sensitivity:\"base\"})):[];const items=files.map((file,i)=>{const m=file.match(/^(\\d+)/);const num=m?String(parseInt(m[1],10)).padStart(2,\"0\"):String(i+1).padStart(2,\"0\");const label=file.replace(/\\.[^.]+$/,\"\").replace(/^\\d+[_-\\s]*/,\"\").replace(/[_-]+/g,\" \").trim().toUpperCase()||\"BRAND CAMPAIGN\";return `  { id: \"${num}\", src: \"/brands/${file}\", title: \"${num} · ${label}\", caption: \"Swipe or click to browse campaign visuals\" }`;}).join(\",\\n\");fs.writeFileSync(path.join(\"src\",\"data\",\"brandCampaigns.ts\"),`export interface BrandCampaignItem {\\n  id: string;\\n  src: string;\\n  title: string;\\n  caption: string;\\n}\\n\\nexport const BRAND_CAMPAIGN_ITEMS: BrandCampaignItem[] = [\\n${items}\\n];\\n`,\"utf8\");console.log(\"Synced brandCampaigns.ts (\"+files.length+\" files):\",files);'",
+    "sync:brands": "node scripts/sync-brands.mjs"
   },
   "dependencies": {
     "@react-spring/three": "^10.1.2",

@@ -172,34 +172,23 @@ function getChaptersForBook(book: BookCategory): ChapterItem[] {
 }
 
 export default function PortfolioBookModal({ book, onClose }: PortfolioBookModalProps) {
-  const __renderBrandCampaignModal = (() => {
-    const raw = JSON.stringify(book ?? "").toLowerCase();
-    const openFlag = (book as any)?.open ?? (book as any)?.isOpen ?? true;
-    const isBrand = raw.includes("brand-campaign") || raw.includes("brand & campaign") || String((book as any)?.category ?? (book as any)?.book?.category ?? "").toLowerCase().includes("brand");
-    return Boolean(openFlag && isBrand);
-  })();
-  if (__renderBrandCampaignModal) {
-    const __p: any = book;
-    const __handleBrandClose = () => {
-      try { __p?.onClose?.(); } catch {}
-      try { __p?.onHide?.(); } catch {}
-      try { __p?.onOpenChange?.(false); } catch {}
-      try { __p?.setOpen?.(false); } catch {}
-      try { __p?.setIsOpen?.(false); } catch {}
-      try { __p?.onSelectBook?.(null); } catch {}
-      try { __p?.onSelect?.(null); } catch {}
-    };
-    return <BrandCampaignModal open={true} onClose={__handleBrandClose} />;
-  }
-  const __isBrandBook = Boolean(
+  const handleBrandClose = () => {
+    onClose();
+  };
+
+  const isBrandBook = Boolean(
     (book as any)?.useBrandCampaignModal ||
-    String((book as any)?.category ?? (book as any)?.book?.category ?? (book as any)?.title ?? "").toLowerCase().includes("brand")
+    String((book as any)?.category ?? (book as any)?.book?.category ?? (book as any)?.title ?? "")
+      .toLowerCase()
+      .includes("brand") ||
+    JSON.stringify(book ?? "").toLowerCase().includes("brand-campaign") ||
+    JSON.stringify(book ?? "").toLowerCase().includes("brand & campaign")
   );
-  const __isOpen = (book as any)?.open ?? (book as any)?.isOpen ?? true;
-  if (__isBrandBook && __isOpen) {
-    const __onClose = (book as any)?.onClose ?? (() => {});
-    return <BrandCampaignModal open={true} onClose={__onClose} />;
+
+  if (book && isBrandBook) {
+    return <BrandCampaignModal open={true} onClose={handleBrandClose} />;
   }
+
   const [activeChapterIdx, setActiveChapterIdx] = useState<number | null>(null);
   const [activeSubTopic, setActiveSubTopic] = useState<string | null>(null);
 
