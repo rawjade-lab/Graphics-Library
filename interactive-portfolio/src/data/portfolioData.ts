@@ -1,3 +1,6 @@
+import { BRAND_CAMPAIGN_ITEMS } from "./brandCampaigns";
+import React from "react";
+import BrandCampaignModal from "@/components/bookshelf/BrandCampaignModal";
 import { BookCategory, ProjectItem } from '@/types/portfolio';
 
 export const BOOKS_DATA: BookCategory[] = [
